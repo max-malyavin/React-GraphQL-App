@@ -1,0 +1,16 @@
+.login__inner {
+  width: 500px;
+  margin: 0 auto;
+  flex-direction: column;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.button {
+  width: 100%;
+}
+.link {
+  text-align: right;
+  margin-top: 15px;
+}

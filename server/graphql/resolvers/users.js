@@ -74,10 +74,19 @@ module.exports = {
 
       const user = await User.findOne({ username });
 
+      const emailCopy = await User.findOne({ email });
+
       if (user) {
         throw new UserInputError("Имя уже занято!", {
           errors: {
             username: "Это имя занято.",
+          },
+        });
+      }
+      if (emailCopy) {
+        throw new UserInputError("Почта уже была использована!", {
+          errors: {
+            email: "Почта уже была использована!",
           },
         });
       }

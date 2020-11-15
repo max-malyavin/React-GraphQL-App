@@ -1,0 +1,42 @@
+@import "~antd/dist/antd.css";
+
+.app,
+#root {
+  height: 100vh;
+}
+.container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0px 10px;
+}
+.app__inner {
+  padding: 20px;
+  background-color: transparent;
+  overflow-y: scroll;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.app {
+  background-color: transparent;
+  border-left: 1px solid #000;
+  border-right: 1px solid #000;
+}
+.header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  background-color: #f0f2f5;
+  color: #000000;
+  border-bottom: 1px solid #000;
+}
+
+.footer__inner {
+  display: flex;
+  justify-content: space-around;
+}
+.ant-list-items {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
