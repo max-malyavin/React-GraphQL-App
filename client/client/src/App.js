@@ -7,28 +7,32 @@ import Header from "./components/Header/Header";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import { AuthProvider } from "./context/auth";
+import AuthRoute from "./utils/AuthRoute";
 
 const App = () => {
   return (
-    <div className="container">
-      <Layout className="app">
-        <BrowserRouter>
-          <Header />
+    <AuthProvider>
+      <div className="container">
+        <Layout className="app">
+          <BrowserRouter>
+            <Header />
 
-          <Layout className="app__inner">
-            <Switch>
-              <Route exact path="/" component={Home} />
-              <Route exact path="/login" component={Login} />
-              <Route exact path="/post/:id" render={() => <div>post</div>} />
-              <Route exact path="/register" component={Register} />
-              <Redirect to="/" />
-            </Switch>
-          </Layout>
+            <Layout className="app__inner">
+              <Switch>
+                <Route exact path="/" component={Home} />
+                <AuthRoute exact path="/login" component={Login} />
+                <Route exact path="/post/:id" render={() => <div>post</div>} />
+                <AuthRoute exact path="/register" component={Register} />
+                <Redirect to="/" />
+              </Switch>
+            </Layout>
 
-          <Footer />
-        </BrowserRouter>
-      </Layout>
-    </div>
+            <Footer />
+          </BrowserRouter>
+        </Layout>
+      </div>
+    </AuthProvider>
   );
 };
 

@@ -1,25 +1,28 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import openNotification from "../utils/openNotification";
 import { LockOutlined, MailOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Tag, Typography } from "antd";
 import { Link } from "react-router-dom";
 import gql from "graphql-tag";
 import { useMutation } from "@apollo/react-hooks";
+import { AuthContext } from "../context/auth";
 const { Title } = Typography;
 
 const Register = (props) => {
+  const context = useContext(AuthContext);
   const [errors, setErrors] = useState(null);
   const [form] = Form.useForm();
   const [values, setValues] = useState({});
 
   const [addUser, { loading }] = useMutation(REGISTER_USER, {
-    update(_, result) {
+    update(_, { data }) {
       openNotification({
         title: "Регистрация прошла успешна!",
         text: "Попробуйте войти в аккаунт!",
         type: "success",
         duration: 2,
       });
+      context.login(data.register);
       props.history.push("/");
     },
     onError(err) {
@@ -32,7 +35,7 @@ const Register = (props) => {
     },
     variables: values,
   });
-  
+
   const onFinish = (values) => {
     setValues(values);
     addUser();

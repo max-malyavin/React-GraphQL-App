@@ -1,24 +1,27 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Tag, Typography } from "antd";
 import { gql, useMutation } from "@apollo/react-hooks";
 import openNotification from "../utils/openNotification";
+import { AuthContext } from "../context/auth";
 
 const { Title } = Typography;
 
 const Login = (props) => {
+  const context = useContext(AuthContext);
   const [form] = Form.useForm();
   const [errors, setErrors] = useState(null);
   const [values, setValues] = useState({});
   const [loginUser, { loading }] = useMutation(LOGIN_USER, {
-    update(_, result) {
+    update(_, { data }) {
       openNotification({
         title: "Авторизация успешна!",
         type: "success",
         duration: 2,
       });
+      context.login(data.login);
       props.history.push("/");
     },
     onError(err) {

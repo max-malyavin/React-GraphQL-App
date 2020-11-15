@@ -1,9 +1,12 @@
-import React from "react";
-import { Layout } from "antd";
+import React, { useContext } from "react";
+import { Button, Layout } from "antd";
 import { NavLink } from "react-router-dom";
+import { AuthContext } from "../../context/auth";
 const { Header: HeaderAntd } = Layout;
 
 const Header = () => {
+  const { user, logout } = useContext(AuthContext);
+
   return (
     <HeaderAntd className="header">
       <NavLink
@@ -17,25 +20,32 @@ const Header = () => {
       >
         Главная
       </NavLink>
-      <NavLink
-        style={{ marginRight: "20px" }}
-        activeStyle={{
-          fontWeight: "bold",
-          color: "black",
-        }}
-        to="/register"
-      >
-        Регистрация
-      </NavLink>
-      <NavLink
-        activeStyle={{
-          fontWeight: "bold",
-          color: "black",
-        }}
-        to="/login"
-      >
-        Логин
-      </NavLink>
+
+      {user ? (
+        <Button onClick={logout}>Выйти</Button>
+      ) : (
+        <>
+          <NavLink
+            style={{ marginRight: "20px" }}
+            activeStyle={{
+              fontWeight: "bold",
+              color: "black",
+            }}
+            to="/register"
+          >
+            Регистрация
+          </NavLink>
+          <NavLink
+            activeStyle={{
+              fontWeight: "bold",
+              color: "black",
+            }}
+            to="/login"
+          >
+            Логин
+          </NavLink>
+        </>
+      )}
     </HeaderAntd>
   );
 };
