@@ -19,4 +19,11 @@ const userSchema = new Schema(
   }
 );
 
+userSchema.set("toJSON", {
+  transform: function (_, obj) {
+    delete obj.password;
+    return obj;
+  },
+});
+
 module.exports = model("User", userSchema);

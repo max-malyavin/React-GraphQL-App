@@ -21,8 +21,9 @@ module.exports = {
         post.comments.unshift({
           body,
           username,
-          createdAt: new Date().toISOString(),
+          createdAt: new Date().toString(),
         });
+
         await post.save();
         return post;
       } else {
@@ -42,8 +43,8 @@ module.exports = {
         } else {
           throw new AuthenticationError("Action not allowed");
         }
-      }else {
-        throw new UserInputError('Поста не существует!')
+      } else {
+        throw new UserInputError("Поста не существует!");
       }
     },
   },

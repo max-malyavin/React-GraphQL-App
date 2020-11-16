@@ -10,7 +10,7 @@
   padding: 0px 10px;
 }
 .app__inner {
-  padding: 20px;
+  padding-top: 10px;
   background-color: transparent;
   overflow-y: scroll;
   display: flex;
@@ -19,16 +19,17 @@
 }
 .app {
   background-color: transparent;
-  border-left: 1px solid #000;
-  border-right: 1px solid #000;
+  font-size: 16px;
 }
 .header {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  background-color: #f0f2f5;
-  color: #000000;
+  background-color: transparent;
+  border-bottom-left-radius: 20%;
+  border-bottom-right-radius: 20%;
   border-bottom: 1px solid #000;
+  color: #000000;
 }
 
 .footer__inner {
@@ -39,4 +40,15 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
+}
+.ant-layout-header {
+  line-height: 30px;
+}
+.ant-list-split .ant-list-item {
+  border: none;
+}
+.link__info {
+  &:hover {
+    color: blue;
+  }
 }

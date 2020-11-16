@@ -9,6 +9,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import { AuthProvider } from "./context/auth";
 import AuthRoute from "./utils/AuthRoute";
+import SinglePost from "./components/SinglePost/SinglePost";
 
 const App = () => {
   return (
@@ -22,7 +23,7 @@ const App = () => {
               <Switch>
                 <Route exact path="/" component={Home} />
                 <AuthRoute exact path="/login" component={Login} />
-                <Route exact path="/post/:id" render={() => <div>post</div>} />
+                <Route exact path="/post/:id" component={SinglePost} />
                 <AuthRoute exact path="/register" component={Register} />
                 <Redirect to="/" />
               </Switch>

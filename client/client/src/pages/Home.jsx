@@ -1,14 +1,14 @@
 import { useQuery } from "@apollo/react-hooks";
-import moment from "moment";
-import gql from "graphql-tag";
-import React, { useContext, useState } from "react";
+import React, { memo, useContext, useState } from "react";
 import { List, Avatar, Space, Card, Typography, Button } from "antd";
-import { MessageOutlined, LikeOutlined } from "@ant-design/icons";
+import { MessageOutlined, UserOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/auth";
+import { parseData } from "../utils/parseData";
 import Modal from "../components/Modal/Modal";
 import { FETCH_POSTS_QUERY } from "../utils/graphql";
-
+import LikeButton from "../components/LikeButton";
+import DeleteButton from "../components/DeleteButton";
 const { Meta } = Card;
 const { Paragraph } = Typography;
 
@@ -19,7 +19,7 @@ const IconText = ({ icon, text }) => (
   </Space>
 );
 
-const Home = () => {
+const Home = memo(({ history }) => {
   const { user } = useContext(AuthContext);
   const [visible, setVisible] = useState(false);
 
@@ -27,16 +27,12 @@ const Home = () => {
     setVisible(true);
   };
 
-  const { loading, data } = useQuery(FETCH_POSTS_QUERY);
+  const { data } = useQuery(FETCH_POSTS_QUERY);
 
   if (!data) {
     return "loading";
   }
 
-  const likePost = () => {};
-  const commentOnPost = () => {
-    console.log("object");
-  };
   const { getPosts: posts } = data;
 
   return (
@@ -57,11 +53,15 @@ const Home = () => {
           >
             {user ? (
               <>
-                <Button onClick={constshowModal}>Добавить пост</Button>
+                <Button type="primary" onClick={constshowModal}>
+                  Добавить пост
+                </Button>
                 <Modal visible={visible} setVisible={setVisible} />
               </>
             ) : (
-              <div>Чтобы добавить пост нужно авторизоваться!</div>
+              <div style={{ fontWeight: "500" }}>
+                Чтобы добавить пост нужно авторизоваться!
+              </div>
             )}
           </div>
         }
@@ -75,22 +75,29 @@ const Home = () => {
           likes,
         }) => (
           <List.Item key={id}>
-            <Card style={{ width: 350, maxHeight: 180, marginTop: 25 }}>
+            <Card
+              hoverable
+              style={{
+                width: 350,
+                maxHeight: 200,
+                height: "100%",
+                marginTop: 25,
+              }}
+            >
               <Meta
-                avatar={
-                  <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-                }
+                avatar={<Avatar icon={<UserOutlined />} />}
                 title={
                   <>
                     <div>{username}</div>
-                    <div>
-                      {/* {createdAt} */}
-                      time
+                    <div style={{ color: "#bdbaba" }}>
+                      Дата: {parseData(createdAt)}
                     </div>
                   </>
                 }
                 description={
                   <Paragraph
+                    underline={true}
+                    strong
                     ellipsis={{
                       rows: 2,
                       expandable: false,
@@ -101,23 +108,27 @@ const Home = () => {
                 }
               />
               <div style={{ textAlign: "center", marginBottom: "10px" }}>
-                <Link to={`/post/${id}`}>Подробнее</Link>
+                <Link className="link__info" to={`/post/${id}`}>
+                  Подробнее
+                </Link>
               </div>
               <div style={{ display: "flex", justifyContent: "space-around" }}>
-                <span onClick={likePost} style={{ cursor: "pointer" }}>
-                  <IconText
-                    icon={LikeOutlined}
-                    text={likeCount}
-                    key="list-vertical-like-o"
-                  />
-                </span>
-                <span onClick={commentOnPost} style={{ cursor: "pointer" }}>
+                <LikeButton user={user} post={{ id, likes, likeCount }} />
+
+                <span
+                  onClick={() => history.push(`/post/${id}`)}
+                  style={{ cursor: "pointer" }}
+                >
                   <IconText
                     icon={MessageOutlined}
                     text={commentCount}
                     key="list-vertical-message"
                   />
                 </span>
+
+                {user && user.username === username && (
+                  <DeleteButton postId={id} />
+                )}
               </div>
             </Card>
           </List.Item>
@@ -125,6 +136,6 @@ const Home = () => {
       />
     </>
   );
-};
+});
 
 export default Home;

@@ -70,7 +70,7 @@ module.exports = {
           // Нет лайка
           post.likes.push({
             username,
-            createdAt: new Date().toISOString(),
+            createdAt: new Date().toString(),
           });
         }
         await post.save();
