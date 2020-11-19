@@ -1,5 +1,4 @@
 
-### `Поюзать можно тут  - https://react-graphql-mini.netlify.app`
 
 ## Используемые технологии
 
